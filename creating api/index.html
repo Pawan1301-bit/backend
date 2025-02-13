@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetching api's</title>
+</head>
+<body>
+    <h1>Fetching API'S</h1>
+    <button>fetch</button>
+    <button id="add">add data </button>
+    <button id="update">update data</button>
+    <button id="delete">delete data</button>
+    <pre id="output"></pre>
+
+    <script>
+        document.getElementById('add').addEventListener('click', async ()=>{
+            let user_name = prompt("enter the name");
+            let user_id = parseInt(prompt("enter the id"));
+            const newItem = {
+                Name : user_name,
+                Id : user_id
+            }
+            try {
+                const response = await fetch('http://localhost:3000/api', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type' : 'application/json'
+                    },
+                    body: JSON.stringify(newItem)
+                })
+                const result = await response.json();
+                document.getElementById('output').textContent = JSON.stringify(result, null, 2);
+            } catch (error) {
+                console.error(error);
+            }
+        });
+
+        document.getElementById('update').addEventListener('click', async ()=>{
+            let user_id= parseInt(prompt("enter the id")); 
+            let new_name = prompt("Enter the new name");
+
+            const updatedItem = {
+                Name: new_name,
+                Id: user_id
+            };
+            try{
+                const response = await fetch(`http://localhost:3000/api/${user_id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedItem)
+                })
+                const updated_result= await response.json();
+                document.getElementById('output').textContent = JSON.stringify(updated_result, null, 2);
+            }catch(error){
+                console.error(error);
+            }
+        });
+
+        //deleting a element
+        document.getElementById('delete').addEventListener('click', async ()=>{
+            let user_id = parseInt(prompt('enter the id of user you want to delete'))
+            try{
+                const response = await fetch(`http://localhost:3000/api/${user_id}`, {
+                    method: 'DELETE'
+                });
+
+                //check if the response is json  -- ??
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Server did not return JSON');
+                }
+
+                const result = await response.json();
+                document.getElementById('delete').textContent = JSON.stringify(result, null, 2)
+
+            }catch(error){
+                console.error(error);
+                document.getElementById('delete').textContent = `Error : ${error.message}`;
+            }
+        });
+
+        document.querySelector("button").addEventListener('click', async ()=>{
+            console.log("fetching....");
+            try{
+                const response = await fetch('http://localhost:3000/api');
+            const data = await response.json();
+            document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+            }catch(error){
+                console.error(`unable to fetch data error: ${error}`);
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+

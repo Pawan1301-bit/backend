@@ -5,7 +5,7 @@ const port = 3000
 
 //serving static files
 app.use(express.static('public'));  //public is the folder name 
-// app.use is used of middleware and express.static is a build in middleware that will make the file public
+// app.use is used for middlewares and express.static is a build in middleware that will make the file public
 //we cannot see the harry.txt -- becoz backend code should not be visible
 //after using static we can see the content on the web the public folder is not longer private now we can use to display in web
 
