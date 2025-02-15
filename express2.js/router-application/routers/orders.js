@@ -1,0 +1,17 @@
+
+import express from 'express'
+
+const router = express.Router();
+
+router.get('/', (req, res)=>{
+    res.send('Welcome to Orders page');
+})
+router.get('/list/', (req, res)=>{
+    res.send('List of all Orders');
+}).get('/:id', (req, res)=>{
+    res.send(`Detail of the Order with the id ${req.params.id}`);
+}).post('', (req, res)=>{
+    res.send('Create new order');
+})
+
+export default router
