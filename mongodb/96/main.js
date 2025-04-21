@@ -2,8 +2,8 @@
 // mongoos -- a package that provide staright forward, schema based solution to model application data and interact with a Mongodb database
 
 import mongoose, { mongo } from "mongoose";
-import express from "express";
 import { Todo } from "./models/Todo.js";
+import express from "express";
 
 let conn = await mongoose.connect('mongodb://localhost:27017/todo');
 // mogodb do not follow any schema whiile mongoos can do  that we want
@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 
 app.get('/a', async(req, res) => {
   let todo = await Todo.findOne({})
-  res.json({status: todo.isDone, desc: todo.desc})=
+  res.json({status: todo.isDone, desc: todo.desc})
 })
 
 app.listen(port, () => {
